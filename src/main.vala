@@ -19,6 +19,8 @@
  * 	Gabriel Falcão <gabriel@nacaolivre.org>
  */
 
+using Anvil;
+
 public class Person : GLib.Object {
 
   [Description(nick="My age", blurb="The age of mine!")]
@@ -69,7 +71,9 @@ public class Main : GLib.Object {
 
   static int main (string[] args) {
     Person person = new Person();
+    IntHandler sh1 = new IntHandler ();
     IntrospectionData id1 = new IntrospectionData((GLib.Object) person);
+    IntrospectionData id2 = new IntrospectionData((GLib.Object) sh1);
     string fname = person.fullname;
 
     GLib.print("Person name: %s\n\n", fname);
@@ -80,6 +84,16 @@ public class Main : GLib.Object {
       GLib.print(" >>>>>> %s of type: %s\n", param.name, param.value_type.qname().to_string());
     }
     GLib.print("\n");
+    fname = id2.typ.qname().to_string();
+    GLib.print("Class name: %s\n\n", fname);
+    GLib.print("Instrospecting...\n");
+    GLib.print(" >>> Type name: %s\n", id2.typ.qname().to_string());
+    GLib.print(" Properties:\n");
+    foreach (GLib.ParamSpec param in id2.properties) {
+      GLib.print(" >>>>>> %s of type: %s\n", param.name, param.value_type.qname().to_string());
+    }
+    GLib.print("\n");
+
     return 0;
   }
 
