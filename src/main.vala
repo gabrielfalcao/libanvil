@@ -19,9 +19,6 @@
  * 	Gabriel Falcão <gabriel@nacaolivre.org>
  */
 
-using GLib;
-using Vala;
-
 public class Person : GLib.Object {
 
   [Description(nick="My age", blurb="The age of mine!")]
@@ -48,24 +45,41 @@ public class Person : GLib.Object {
 
 }
 
+public class IntrospectionData : GLib.Object {
+
+  public GLib.ParamSpec[] properties {
+    get  {
+      return this.klass.list_properties();
+    }
+  }
+  public GLib.ObjectClass #klass  {
+    get {
+      return (ObjectClass)this.typ.class_ref();
+    }
+  }
+  public GLib.Type typ {get;construct set;}
+
+  public IntrospectionData (GLib.Object obj) {
+    this.typ = obj.get_type();
+  }
+
+}
 public class Main : GLib.Object {
 
 
   static int main (string[] args) {
-    Main main = new Main ();
     Person person = new Person();
-    Type typ = person.get_type();
-    ObjectClass cls = (ObjectClass)typ.class_ref();
-    string classname = typ.qname().to_string();
-    print("Introspecting...\n");
-    print(" >>> Class name: %s\n", classname);
-    print(" >>> Listing properties of %s...\n", classname);
-    foreach (GLib.ParamSpec prp in cls.list_properties()) {
-      print(" >>>>>> Property name: %s\n" , prp.name);
-    }
+    IntrospectionData id1 = new IntrospectionData((GLib.Object) person);
     string fname = person.fullname;
-    print("Person name: %s\n\n", fname);
 
+    GLib.print("Person name: %s\n\n", fname);
+    GLib.print("Instrospecting...\n");
+    GLib.print(" >>> Type name: %s\n", id1.typ.qname().to_string());
+    GLib.print(" Properties:\n");
+    foreach (GLib.ParamSpec param in id1.properties) {
+      GLib.print(" >>>>>> %s of type: %s\n", param.name, param.value_type.qname().to_string());
+    }
+    GLib.print("\n");
     return 0;
   }
 
