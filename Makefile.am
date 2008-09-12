@@ -29,7 +29,7 @@ libanvil_SOURCES = \
 	$(NULL)
 
 src/libanvil.vala.stamp: $(libanvil_VALASOURCES)
-	$(VALAC) -C --basedir --pkg=vala-1.0 $(top_srcdir)
+	$(VALAC) --pkg=vala-1.0 -g --save-temps --basedir=$(top_srcdir) $^ -o Main
 	touch $@
 
 libanvil_LDADD = \

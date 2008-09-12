@@ -20,19 +20,53 @@
  */
 
 using GLib;
+using Vala;
 
-public class Libanvil.Main : Object {
-	public Main () {
-	}
+public class Person : GLib.Object {
 
-	public void run () {
-		stdout.printf ("Hello, world!\n");
-	}
+  [Description(nick="My age", blurb="The age of mine!")]
+  public int age {get;set;}
 
-	static int main (string[] args) {
-		var main = new Main ();
-		main.run ();
-		return 0;
-	}
+  [Description(nick="My name", blurb="The name of mine!")]
+  public string name {get;set;}
+
+  [Description(nick="My surname", blurb="The surname of mine!")]
+  public string surname {get;set;}
+
+  [Description(nick="My fullname", blurb="A Dynamically represented fullname")]
+  public string #fullname {
+    get {
+      return "Person: %s %s".printf(this.name, this.surname);
+    }
+  }
+
+  construct {
+    this.name = "John";
+    this.surname = "Doe";
+    this.age = 33;
+  }
+
+}
+
+public class Main : GLib.Object {
+
+
+  static int main (string[] args) {
+    Main main = new Main ();
+    Person person = new Person();
+    Type typ = person.get_type();
+    ObjectClass cls = (ObjectClass)typ.class_ref();
+    string classname = typ.qname().to_string();
+    print("Introspecting...\n");
+    print(" >>> Class name: %s\n", classname);
+    print(" >>> Listing properties of %s...\n", classname);
+    foreach (GLib.ParamSpec prp in cls.list_properties()) {
+      print(" >>>>>> Property name: %s\n" , prp.name);
+    }
+    string fname = person.fullname;
+    print("Person name: %s\n\n", fname);
+
+    return 0;
+  }
 
 }
