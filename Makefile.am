@@ -20,6 +20,11 @@ libanvil_VALASOURCES = \
 	serializer/handlers/base.vala \
 	serializer/handlers/int.vala \
 	serializer/handlers/string.vala \
+    serializer/handlers/boolean.vala \
+    serializer/handlers/hashtable.vala \
+    serializer/handlers/null.vala \
+    serializer/handlers/object.vala \
+    serializer/handlers/uint.vala \
 	src/main.vala \
 	$(NULL)
 

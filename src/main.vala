@@ -81,9 +81,10 @@ public class Main : GLib.Object {
     GLib.print(" >>> Type name: %s\n", id1.typ.qname().to_string());
     GLib.print(" Properties:\n");
     foreach (GLib.ParamSpec param in id1.properties) {
-      GLib.print(" >>>>>> %s of type: %s\n", param.name, param.value_type.qname().to_string());
+      GLib.print(" >>>>>> %s of type: %s\n", param.get_blurb(), param.value_type.qname().to_string());
     }
     GLib.print("\n");
+
     fname = id2.typ.qname().to_string();
     GLib.print("Class name: %s\n\n", fname);
     GLib.print("Instrospecting...\n");
