@@ -27,5 +27,4 @@ public class Anvil.BaseHandler : GLib.Object {
       get;
       construct set;
     }
-
 }

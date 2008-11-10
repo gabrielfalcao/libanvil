@@ -17,12 +17,14 @@
  * Boston, MA 02111-1307, USA.
  */
 public class Anvil.NullHandler : Anvil.BaseHandler {
-
+  private string _value;
   public string value {
     get {
-      return "NULL Value";
+      return this._value != null ? this._value : "NULL Handler";
     }
-      construct set;
+    construct set {
+      this.value = value;
+    }
     }
 
 }

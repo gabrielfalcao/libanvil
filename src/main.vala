@@ -18,7 +18,6 @@
  * Author:
  * 	Gabriel Falcão <gabriel@nacaolivre.org>
  */
-
 using Anvil;
 
 public class Person : GLib.Object {
@@ -66,16 +65,17 @@ public class IntrospectionData : GLib.Object {
   }
 
 }
-public class Main : GLib.Object {
 
+public class Main {
 
   static int main (string[] args) {
     Person person = new Person();
     IntHandler sh1 = new IntHandler ();
+    ObjectHandler oh1 = new ObjectHandler ();
     IntrospectionData id1 = new IntrospectionData((GLib.Object) person);
     IntrospectionData id2 = new IntrospectionData((GLib.Object) sh1);
     string fname = person.fullname;
-
+    register_handler(person.get_type(), oh1.get_type());
     GLib.print("Person name: %s\n\n", fname);
     GLib.print("Instrospecting...\n");
     GLib.print(" >>> Type name: %s\n", id1.typ.qname().to_string());
@@ -84,6 +84,7 @@ public class Main : GLib.Object {
       GLib.print(" >>>>>> %s of type: %s\n", param.get_blurb(), param.value_type.qname().to_string());
     }
     GLib.print("\n");
+    ObjectHandler oh2 = (ObjectHandler) get_handler(person);
 
     fname = id2.typ.qname().to_string();
     GLib.print("Class name: %s\n\n", fname);
@@ -97,5 +98,4 @@ public class Main : GLib.Object {
 
     return 0;
   }
-
 }
