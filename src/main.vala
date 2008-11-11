@@ -34,7 +34,7 @@ public class Person : GLib.Object {
   [Description(nick="My fullname", blurb="A Dynamically represented fullname")]
   public string #fullname {
     get {
-      return "Person: %s %s".printf(this.name, this.surname);
+      return "%s %s".printf(this.name, this.surname);
     }
   }
 
@@ -69,13 +69,14 @@ public class IntrospectionData : GLib.Object {
 public class Main {
 
   static int main (string[] args) {
+    Anvil.anvil_init();
     Person person = new Person();
     IntHandler sh1 = new IntHandler ();
     ObjectHandler oh1 = new ObjectHandler ();
     IntrospectionData id1 = new IntrospectionData((GLib.Object) person);
     IntrospectionData id2 = new IntrospectionData((GLib.Object) sh1);
     string fname = person.fullname;
-    register_handler(person.get_type(), oh1.get_type());
+    register_handler(person.get_type(), typeof(ObjectHandler));
     GLib.print("Person name: %s\n\n", fname);
     GLib.print("Instrospecting...\n");
     GLib.print(" >>> Type name: %s\n", id1.typ.qname().to_string());
@@ -84,7 +85,7 @@ public class Main {
       GLib.print(" >>>>>> %s of type: %s\n", param.get_blurb(), param.value_type.qname().to_string());
     }
     GLib.print("\n");
-    ObjectHandler oh2 = (ObjectHandler) get_handler(person);
+    ObjectHandler oh2 = ((ObjectHandler) get_handler(person.get_type()));
 
     fname = id2.typ.qname().to_string();
     GLib.print("Class name: %s\n\n", fname);

@@ -27,4 +27,10 @@ public class Anvil.BaseHandler : GLib.Object {
       get;
       construct set;
     }
+    construct {
+      if (!Anvil.is_initialized) {
+        GLib.error("You must initialize the LibAnvil registry with Anvil.anvil_init();");
+      }
+    }
+
 }

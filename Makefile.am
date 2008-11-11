@@ -17,6 +17,7 @@ BUILT_SOURCES = src/libanvil.vala.stamp
 bin_PROGRAMS = libanvil
 
 libanvil_VALASOURCES = \
+	src/globals.vala \
 	serializer/handlers/base.vala \
 	serializer/handlers/int.vala \
 	serializer/handlers/string.vala \
